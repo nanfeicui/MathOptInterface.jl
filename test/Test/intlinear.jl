@@ -2,14 +2,12 @@
     mock = MOIU.MockOptimizer(Model{Float64}())
     config = MOIT.TestConfig()
 
-    mock.eval_objective_bound = false
     MOIU.set_mock_optimize!(mock,
         (mock::MOIU.MockOptimizer) -> begin
             MOI.set(mock, MOI.ObjectiveBound(), 20.0)
             MOIU.mock_optimize!(mock, [4, 5, 1])
         end)
     MOIT.int1test(mock, config)
-    mock.eval_objective_bound = true
 
     MOIU.set_mock_optimize!(mock,
         (mock::MOIU.MockOptimizer) -> MOIU.mock_optimize!(mock, [0, 1, 2]),
